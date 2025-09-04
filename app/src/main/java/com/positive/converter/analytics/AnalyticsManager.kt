@@ -1,10 +1,6 @@
 package com.positive.converter.analytics
 
 import android.content.Context
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,68 +9,47 @@ import javax.inject.Singleton
 class AnalyticsManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
+    // Firebase無効化: ローカル分析のみ
 
     fun logTextConverted(originalText: String, convertedText: String) {
-        firebaseAnalytics.logEvent("text_converted") {
-            param("original_length", originalText.length.toLong())
-            param("converted_length", convertedText.length.toLong())
-            param("word_count", originalText.split(" ").size.toLong())
-        }
+        // ローカル分析: ログのみ
+        println("Analytics: Text converted - original: ${originalText.length}, converted: ${convertedText.length}")
     }
 
     fun logScreenView(screenName: String) {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-            param(FirebaseAnalytics.Param.SCREEN_CLASS, "${screenName}Screen")
-        }
+        println("Analytics: Screen view - $screenName")
     }
 
     fun logHistoryAction(action: HistoryAction) {
-        firebaseAnalytics.logEvent("history_action") {
-            param("action_type", action.name.lowercase())
-        }
+        println("Analytics: History action - ${action.name}")
     }
 
     fun logShareAction(contentType: String) {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE) {
-            param(FirebaseAnalytics.Param.CONTENT_TYPE, contentType)
-            param(FirebaseAnalytics.Param.METHOD, "app_share")
-        }
+        println("Analytics: Share action - $contentType")
     }
 
     fun logCopyAction() {
-        firebaseAnalytics.logEvent("copy_to_clipboard") {
-            param("content_type", "converted_text")
-        }
+        println("Analytics: Copy to clipboard")
     }
 
     fun logSettingsChange(settingName: String, newValue: String) {
-        firebaseAnalytics.logEvent("settings_changed") {
-            param("setting_name", settingName)
-            param("new_value", newValue)
-        }
+        println("Analytics: Settings changed - $settingName: $newValue")
     }
 
     fun logAppOpen() {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN) {
-            param("timestamp", System.currentTimeMillis())
-        }
+        println("Analytics: App opened")
     }
 
     fun logError(errorType: String, errorMessage: String) {
-        firebaseAnalytics.logEvent("app_error") {
-            param("error_type", errorType)
-            param("error_message", errorMessage.take(100)) // Limit message length
-        }
+        println("Analytics: Error - $errorType: $errorMessage")
     }
 
     fun setUserProperty(name: String, value: String) {
-        firebaseAnalytics.setUserProperty(name, value)
+        println("Analytics: User property - $name: $value")
     }
 
     fun setAnalyticsCollectionEnabled(enabled: Boolean) {
-        firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
+        println("Analytics: Collection enabled - $enabled")
     }
 }
 
