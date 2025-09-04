@@ -13,6 +13,8 @@
       "Bash(./gradlew.bat clean:*)",
       "Bash(./gradlew.bat assembleDebug:*)",
       "Read(/C:\\Users\\365of\\apply\\positive\\app\\src\\main\\java\\com\\positive\\converter\\analytics/**)",
+      "Read(/C:\\Users\\365of\\apply\\positive\\app\\src\\main\\java\\com\\positive\\converter\\ui\\history/**)",
+      "Read(/C:\\Users\\365of\\apply\\positive\\app\\src\\main\\java\\com\\positive\\converter\\ui\\history/**)",
       "Read(/C:\\Users\\365of\\apply\\positive\\app\\src\\main\\java\\com\\positive\\converter\\ui\\history/**)"
     ],
     "deny": [],

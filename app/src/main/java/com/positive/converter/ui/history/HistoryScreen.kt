@@ -158,7 +158,7 @@ fun HistoryItem(
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         Icon(
-                            Icons.Default.Check,
+                            Icons.Filled.History,
                             contentDescription = null,
                             modifier = Modifier.size(16.dp),
                             tint = MaterialTheme.colorScheme.primary
