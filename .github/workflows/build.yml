@@ -29,10 +29,6 @@ jobs:
         echo "android.useAndroidX=true" >> gradle.properties
         echo "android.enableJetifier=true" >> gradle.properties
         
-    - name: Create dummy google-services.json
-      run: |
-        echo '{"project_info":{"project_number":"123456789","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:123456789:android:dummy","android_client_info":{"package_name":"com.positive.converter"}},"api_key":[{"current_key":"dummy-api-key"}]}]}' > app/google-services.json
-        
     - name: Build Debug APK
       run: |
         ./gradlew assembleDebug --stacktrace --info || (cat app/build/reports/lint-results-debug.txt 2>/dev/null; exit 1)

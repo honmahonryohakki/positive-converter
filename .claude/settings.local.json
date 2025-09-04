@@ -8,7 +8,9 @@
       "Read(/C:\\Users\\365of\\apply\\positive/**)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Read(/C:\\Users\\365of\\apply\\positive\\app/**)",
+      "Bash(./gradlew.bat clean:*)"
     ],
     "deny": [],
     "ask": []

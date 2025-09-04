@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    // id("com.google.gms.google-services") // 一時的に無効化
+    // id("com.google.firebase.crashlytics") // 一時的に無効化
 }
 
 android {
@@ -104,10 +104,10 @@ dependencies {
     // DataStore (for preferences)
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    // Firebase（一時的に無効化）
+    // implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    // implementation("com.google.firebase:firebase-analytics-ktx")
+    // implementation("com.google.firebase:firebase-crashlytics-ktx")
     
     // Testing
     testImplementation("junit:junit:4.13.2")
