@@ -1,0 +1,30 @@
+# Android Studio files
+.idea/
+*.iml
+local.properties
+
+# Gradle files
+.gradle/
+build/
+app/build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Java heap dumps
+*.hprof
+
+# Log files
+*.log
+
+# Firebase
+google-services.json
+
+# Keystore files (should be in Secret Manager)
+*.keystore
+*.jks
+
+# Temporary files
+*.tmp
+*.temp
