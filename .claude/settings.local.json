@@ -5,7 +5,10 @@
       "Bash(gh auth:*)",
       "Bash(ssh:*)",
       "Read(/C:\\Users\\365of\\apply\\positive/**)",
-      "Read(/C:\\Users\\365of\\apply\\positive/**)"
+      "Read(/C:\\Users\\365of\\apply\\positive/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

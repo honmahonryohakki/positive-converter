@@ -1,0 +1,63 @@
+name: Debug Build Issues
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Check project structure
+      run: |
+        echo "=== Project Structure ==="
+        ls -la
+        echo "=== App directory ==="
+        ls -la app/
+        echo "=== Gradle files ==="
+        cat settings.gradle
+        echo "=== App build.gradle ==="
+        head -50 app/build.gradle
+        
+    - name: Create dummy google-services.json
+      run: |
+        echo '{"project_info":{"project_number":"123456789","project_id":"dummy-project"},"client":[{"client_info":{"mobilesdk_app_id":"1:123456789:android:dummy","android_client_info":{"package_name":"com.positive.converter"}},"api_key":[{"current_key":"dummy-api-key"}]}]}' > app/google-services.json
+        echo "google-services.json created"
+        
+    - name: Gradle properties
+      run: |
+        echo "android.useAndroidX=true" >> gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
+        cat gradle.properties
+        
+    - name: Clean and check dependencies
+      run: |
+        ./gradlew clean
+        ./gradlew dependencies --configuration debugRuntimeClasspath || true
+        
+    - name: Try to build with full debug
+      run: |
+        ./gradlew assembleDebug --debug 2>&1 | tail -200
+      continue-on-error: true
+      
+    - name: Check for error files
+      if: failure()
+      run: |
+        echo "=== Checking for build errors ==="
+        find . -name "*.log" -type f -exec echo "File: {}" \; -exec tail -50 {} \;
+        echo "=== Lint results if any ==="
+        cat app/build/reports/lint-results-debug.txt 2>/dev/null || echo "No lint results"
