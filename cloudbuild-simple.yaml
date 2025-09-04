@@ -1,0 +1,67 @@
+# 最小構成 Cloud Build - ビルドテスト用
+# Play Store アップロード機能は無効化
+
+substitutions:
+  _KEYSTORE_PATH: 'release.keystore'
+  _KEY_ALIAS: 'app-release'
+
+steps:
+  # 1. gradle.properties を生成（固定パスワードでテスト）
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cat > gradle.properties << EOF
+        KEYSTORE_PATH=../${_KEYSTORE_PATH}
+        KEY_ALIAS=${_KEY_ALIAS}
+        KEY_PASSWORD=positive123
+        KEYSTORE_PASSWORD=positive123
+        EOF
+        echo "gradle.properties created:"
+        cat gradle.properties
+
+  # 2. キーストアファイルを確認
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        ls -la ${_KEYSTORE_PATH}
+        echo "Keystore file exists!"
+
+  # 3. 基本的なAndroidビルド（署名なし）
+  - name: 'gcr.io/cloud-builders/gradle:7.6.0-jdk17'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== Gradle Version ==="
+        ./gradlew --version
+        echo "=== Clean Build ==="
+        ./gradlew clean
+        echo "=== Debug Build ==="
+        ./gradlew assembleDebug
+        echo "=== Build Success! ==="
+
+  # 4. ビルド成果物を確認
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== Build Artifacts ==="
+        find app/build/outputs -name "*.apk" -o -name "*.aab"
+        ls -la app/build/outputs/apk/debug/ || echo "Debug APK not found"
+
+# ビルド成果物を保存
+artifacts:
+  objects:
+    location: 'gs://${PROJECT_ID}-build-artifacts-test/${BUILD_ID}'
+    paths:
+      - 'app/build/outputs/apk/debug/*.apk'
+
+options:
+  machineType: 'E2_STANDARD_2'
+  diskSizeGb: 50
+  timeout: '1200s'

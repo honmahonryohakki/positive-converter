@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(gh auth:*)",
+      "Bash(ssh:*)",
+      "Read(/C:\\Users\\365of\\apply\\positive/**)",
+      "Read(/C:\\Users\\365of\\apply\\positive/**)"
     ],
     "deny": [],
     "ask": []
